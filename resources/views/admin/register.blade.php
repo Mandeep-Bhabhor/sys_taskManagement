@@ -25,7 +25,9 @@
             <label for="role">Role</label>
             <nb>
             <input type="radio" name="role" value="admin"> Admin
-            <input type="radio" name="role" value="user"> User 
+            <input type="radio" name="role" value="staff"> Staff
+            <input type="radio" name="role" value="manager"> Manager
+            </nb>
         </div>
 
         <button type="submit" class="btn btn-primary">Register</button>

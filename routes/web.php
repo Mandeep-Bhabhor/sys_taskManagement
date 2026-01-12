@@ -1,20 +1,31 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Middleware\Authenticate;
 
 
 Route::get('/', function () {
     return view('welcome');
-});
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+})->name('view.login');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+Route::post('/login', [AuthController::class , 'login'])->name('login');
+
+
+Route::middleware(['auth'])->group (function(){
+
+Route::get('/admin/dashboard', [AuthController::class , 'admindash'])->name('view.admindash');
+Route::get('/manager/dashboard', [AuthController::class , 'managerdash'])->name('view.managerdash');
+Route::get('/staff/dashboard', [AuthController::class , 'staffdash'])->name('view.staffdash');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });
 
-Route::get('/admin/register', [AdminController::class, 'showRegistrationForm'])->name('admin/register');
-Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register');
+///admin only routes 
+
+Route::middleware(['auth','is_admin'])->group(function(){
+Route::post('/register', [AdminController::class , 'register'])->name('admin.register');
+Route::get('/register',[AuthController::class , 'viewregister'])->name('view.register');
+
+});
