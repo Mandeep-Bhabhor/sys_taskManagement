@@ -32,6 +32,8 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 ////staff only routes
 Route::middleware(['auth', 'is_staff'])->group(function () {
     Route::get('/staff/dashboard', [AuthController::class, 'staffdash'])->name('view.staffdash');
+    Route::get('/staff/Assigned_tasks', [TaskController::class, 'task_list'])->name('task.list');
+    Route::patch('/staff/complete_task/{id}', [TaskController::class, 'complete_task'])->name('task.complete');
 
 });
 
@@ -40,6 +42,7 @@ Route::middleware(['auth', 'is_manager'])->group(function () {
     Route::get('/manager/dashboard', [AuthController::class, 'managerdash'])->name('view.managerdash');
     Route::get('/add/task', [TaskController::class, 'view_task'])->name('form.task');
     Route::post('/add/task', [TaskController::class, 'add_task'])->name('add.task');
+    
 
     
 });

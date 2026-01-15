@@ -34,7 +34,8 @@ class AuthController extends Controller
       }elseif($user->role === 'staff'){
         return redirect()->route('view.staffdash');
       }
-      }
+      }else
+       return redirect()->back()->with('warning','wrong credentials');
     }
 
 
