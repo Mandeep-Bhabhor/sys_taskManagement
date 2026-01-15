@@ -42,6 +42,9 @@ Route::middleware(['auth', 'is_manager'])->group(function () {
     Route::get('/manager/dashboard', [AuthController::class, 'managerdash'])->name('view.managerdash');
     Route::get('/add/task', [TaskController::class, 'view_task'])->name('form.task');
     Route::post('/add/task', [TaskController::class, 'add_task'])->name('add.task');
+    Route::get('/view/task', [TaskController::class, 'task_list_manager'])->name('task.list.manager');
+    Route::get('/edit/task/{id}', [TaskController::class, 'edit_task_page'])->name('manager.task.edit');
+    Route::put('/edit/task/{id}', [TaskController::class, 'edit_task'])->name('manager.task.update');
     
 
     

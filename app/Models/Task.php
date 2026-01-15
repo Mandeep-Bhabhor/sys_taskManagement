@@ -11,6 +11,7 @@ class Task extends Model
        'title',
        'status',
        'staff_id',
+       'manager_id'
 
     ];
 
