@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<form action='{{ route('login') }}' method='POST'>
+<form action='{{ route('check.login') }}' method='POST'>
     @csrf
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>

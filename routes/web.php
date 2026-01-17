@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('view.login');
+})->name('login');
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('check.login');
 
 
 ///auth required routes
@@ -22,15 +22,19 @@ Route::middleware(['auth'])->group(function () {
 
 // /admin only routes
 
-Route::middleware(['auth', 'is_admin'])->group(function () {
+Route::middleware(['auth', 'is_admin','is_active'])->group(function () {
     Route::get('/admin/dashboard', [AuthController::class, 'admindash'])->name('view.admindash');
     Route::post('/register', [AdminController::class, 'register'])->name('admin.register');
     Route::get('/register', [AuthController::class, 'viewregister'])->name('view.register');
+    Route::get('/manage', [AdminController::class, 'manage_users'])->name('admin.manage.users');
+    Route::patch('/ban/{id}', [AdminController::class, 'user_ban'])->name('admin.user.ban');
+    Route::patch('/active/{id}', [AdminController::class, 'user_activate'])->name('admin.user.activate');
+    
 
 });
 
 ////staff only routes
-Route::middleware(['auth', 'is_staff'])->group(function () {
+Route::middleware(['auth', 'is_staff','is_active'])->group(function () {
     Route::get('/staff/dashboard', [AuthController::class, 'staffdash'])->name('view.staffdash');
     Route::get('/staff/Assigned_tasks', [TaskController::class, 'task_list'])->name('task.list');
     Route::patch('/staff/complete_task/{id}', [TaskController::class, 'complete_task'])->name('task.complete');
@@ -38,7 +42,7 @@ Route::middleware(['auth', 'is_staff'])->group(function () {
 });
 
 ////manager only routes 
-Route::middleware(['auth', 'is_manager'])->group(function () {
+Route::middleware(['auth', 'is_manager','is_active'])->group(function () {
     Route::get('/manager/dashboard', [AuthController::class, 'managerdash'])->name('view.managerdash');
     Route::get('/add/task', [TaskController::class, 'view_task'])->name('form.task');
     Route::post('/add/task', [TaskController::class, 'add_task'])->name('add.task');

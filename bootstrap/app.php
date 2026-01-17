@@ -6,6 +6,8 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\StaffMiddleware;
 use App\Http\Middleware\ManagerMiddleware;
+use App\Http\Middleware\ActiveMiddleware;
+
 
 
 
@@ -22,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_admin' => AdminMiddleware::class,
             'is_staff' => StaffMiddleware::class,
             'is_manager' => ManagerMiddleware::class,
+            'is_active' => ActiveMiddleware::class,
         ]);
 
     })

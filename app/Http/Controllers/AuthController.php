@@ -27,6 +27,11 @@ class AuthController extends Controller
 
       $user=Auth::user();
 
+      if(!auth()->user()->is_active){
+        Auth::logout();
+        return back()->with('warning','You are banned');
+      }
+
       if($user->role === 'admin'){
         return redirect()->route('view.admindash');
       }elseif($user->role === 'manager'){
@@ -65,6 +70,6 @@ class AuthController extends Controller
         $req->session()->invalidate();
         $req->session()->regenerateToken();
 
-        return redirect()->route('view.login');
+        return redirect()->route('login');
     }
 }
