@@ -1,59 +1,203 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Task Management System (Laravel 12)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A role-based Task Management System built using Laravel 12 where:
 
-## About Laravel
+Managers can create and view tasks
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Tasks are assigned to staff
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Staff can view and mark tasks as completed
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Role-based dashboards for Manager and Staff
 
-## Learning Laravel
+Secure authentication and logout system
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Features
+Manager
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+View all tasks
 
-## Laravel Sponsors
+See assigned staff for each task
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Track task status (Pending / Completed)
 
-### Premium Partners
+Staff
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+View only their assigned tasks
 
-## Contributing
+Mark tasks as completed
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Secure dashboard access
 
-## Code of Conduct
+Authentication
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Login & logout
 
-## Security Vulnerabilities
+Role-based access control
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Middleware protected routes
 
-## License
+Tech Stack
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Laravel 12
+
+PHP 8.2+
+
+MySQL
+
+Bootstrap 5
+
+Blade Templates
+
+Installation (ZIP Download Setup)
+1. Download & Extract
+
+Download the project ZIP from GitHub and extract it:
+
+Task_Management/
+
+
+Open in VS Code or any editor.
+
+2. Install Dependencies
+composer install
+
+
+(Optional frontend)
+
+npm install
+
+3. Environment Setup
+
+Copy .env.example and rename to:
+
+.env
+
+
+Generate app key:
+
+php artisan key:generate
+
+4. Database Configuration
+
+Edit .env:
+
+DB_DATABASE=task_management
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+Create database:
+
+CREATE DATABASE task_management;
+
+5. Run Migrations
+php artisan migrate
+
+
+This creates:
+
+users
+
+tasks
+
+roles & auth tables
+
+6. Create Roles
+
+In users table:
+
+role = manager
+role = staff
+
+
+You can update manually:
+
+UPDATE users SET role='manager' WHERE id=1;
+UPDATE users SET role='staff' WHERE id=2;
+
+7. Start Server
+php artisan serve
+
+
+Visit:
+
+http://127.0.0.1:8000
+
+Routes Overview
+URL	Access	Description
+/login	Public	Login
+/manager/dashboard	Manager	Manager Dashboard
+/manager/tasks	Manager	View all tasks
+/staff/tasks	Staff	View assigned tasks
+/logout	Auth	Logout
+Task Workflow
+
+Manager creates a task
+
+Task assigned to staff
+
+Staff logs in
+
+Staff sees task
+
+Staff marks task as completed
+
+Manager sees updated status
+
+Database Schema
+tasks table
+Column	Type
+id	bigint
+name	string
+status	enum(pending, completed)
+staff_id	foreign key (users.id)
+timestamps	
+Relationships
+// Task Model
+public function staff()
+{
+    return $this->belongsTo(User::class, 'staff_id');
+}
+
+// User Model
+public function tasks()
+{
+    return $this->hasMany(Task::class, 'staff_id');
+}
+
+Security
+
+CSRF protected forms
+
+Auth middleware
+
+Role-based middleware
+
+POST-only logout
+
+Route protection
+
+Future Enhancements
+
+Task priority
+
+Due dates
+
+Notifications
+
+Admin analytics
+
+PDF reports
+
+Author
+
+Developed by Mandeep
+Laravel Backend Developer
+
+If you want, next I can generate:
+
+• ER Diagram
+• Project Report PDF
+• Deployment steps
+• Screenshots layout for GitHub
